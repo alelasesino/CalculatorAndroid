@@ -49,27 +49,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inicializo el objeto que llevara toda la operacion
         operation = new Operation(0, 0, null);
 
-        textViewBox = (TextView) findViewById(R.id.tvBox);
-        buttonDel = (Button) findViewById(R.id.btDel);
-        buttonAC = (Button) findViewById(R.id.btAC);
-        buttonMM = (Button) findViewById(R.id.btMM);
-        buttonPorc = (Button) findViewById(R.id.btPorc);
-        buttonDiv = (Button) findViewById(R.id.btDiv);
-        buttonPro = (Button) findViewById(R.id.btPro);
-        buttonRes = (Button) findViewById(R.id.btRes);
-        buttonSum = (Button) findViewById(R.id.btSum);
-        button0 = (Button) findViewById(R.id.bt0);
-        button1 = (Button) findViewById(R.id.bt1);
-        button2 = (Button) findViewById(R.id.bt2);
-        button3 = (Button) findViewById(R.id.bt3);
-        button4 = (Button) findViewById(R.id.bt4);
-        button5 = (Button) findViewById(R.id.bt5);
-        button6 = (Button) findViewById(R.id.bt6);
-        button7 = (Button) findViewById(R.id.bt7);
-        button8 = (Button) findViewById(R.id.bt8);
-        button9 = (Button) findViewById(R.id.bt9);
-        buttonDec = (Button) findViewById(R.id.btDec);
-        buttonEqu = (Button) findViewById(R.id.btEqu);
+        textViewBox = findViewById(R.id.tvBox);
+        buttonDel = findViewById(R.id.btDel);
+        buttonAC = findViewById(R.id.btAC);
+        buttonMM = findViewById(R.id.btMM);
+        buttonPorc = findViewById(R.id.btPorc);
+        buttonDiv = findViewById(R.id.btDiv);
+        buttonPro = findViewById(R.id.btPro);
+        buttonRes = findViewById(R.id.btRes);
+        buttonSum = findViewById(R.id.btSum);
+        button0 = findViewById(R.id.bt0);
+        button1 = findViewById(R.id.bt1);
+        button2 = findViewById(R.id.bt2);
+        button3 = findViewById(R.id.bt3);
+        button4 = findViewById(R.id.bt4);
+        button5 = findViewById(R.id.bt5);
+        button6 = findViewById(R.id.bt6);
+        button7 = findViewById(R.id.bt7);
+        button8 = findViewById(R.id.bt8);
+        button9 = findViewById(R.id.bt9);
+        buttonDec = findViewById(R.id.btDec);
+        buttonEqu = findViewById(R.id.btEqu);
 
         buttonAC.setOnClickListener(this);
         buttonDel.setOnClickListener(this);
