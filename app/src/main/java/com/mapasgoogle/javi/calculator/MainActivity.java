@@ -4,24 +4,20 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private int[] numberButtonsId = {R.id.bt0, R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4,
+                                     R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9};
+
+    private Button[] numberButtons = new Button[numberButtonsId.length];
+
     private TextView textViewBox;
     private Button buttonDel;
-    private Button button0;
-    private Button button1;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-    private Button button5;
-    private Button button6;
-    private Button button7;
-    private Button button8;
-    private Button button9;
     private Button buttonAC;
     private Button buttonMM;
     private Button buttonPorc;
@@ -49,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inicializo el objeto que llevara toda la operacion
         operation = new Operation(0, 0, null);
 
+        initializeComponents();
+
+    }
+
+    private void initializeComponents(){
+
         textViewBox = findViewById(R.id.tvBox);
         buttonDel = findViewById(R.id.btDel);
         buttonAC = findViewById(R.id.btAC);
@@ -58,18 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonPro = findViewById(R.id.btPro);
         buttonRes = findViewById(R.id.btRes);
         buttonSum = findViewById(R.id.btSum);
-        button0 = findViewById(R.id.bt0);
-        button1 = findViewById(R.id.bt1);
-        button2 = findViewById(R.id.bt2);
-        button3 = findViewById(R.id.bt3);
-        button4 = findViewById(R.id.bt4);
-        button5 = findViewById(R.id.bt5);
-        button6 = findViewById(R.id.bt6);
-        button7 = findViewById(R.id.bt7);
-        button8 = findViewById(R.id.bt8);
-        button9 = findViewById(R.id.bt9);
         buttonDec = findViewById(R.id.btDec);
         buttonEqu = findViewById(R.id.btEqu);
+
+        for(int i = 0; i<numberButtonsId.length; i++)
+            numberButtons[i] = findViewById(numberButtonsId[i]);
+
 
         buttonAC.setOnClickListener(this);
         buttonDel.setOnClickListener(this);
@@ -79,22 +75,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonPro.setOnClickListener(this);
         buttonRes.setOnClickListener(this);
         buttonSum.setOnClickListener(this);
-        button0.setOnClickListener(this);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        button7.setOnClickListener(this);
-        button8.setOnClickListener(this);
-        button9.setOnClickListener(this);
         buttonDec.setOnClickListener(this);
         buttonEqu.setOnClickListener(this);
+
+        for(Button bt : numberButtons)
+            bt.setOnClickListener(this::onNumberClick);
+
+    }
+
+    private void onNumberClick(View v){
+
+        Button bt = (Button)v;
+        writeNumberOperation(bt.getText().toString());
+        textViewBox.setText(stringResult);
+
     }
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.btAC:
                 cleanAll();
@@ -107,36 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btPorc:
                 configureOperation("porc", buttonPorc);
-                break;
-            case R.id.bt7:
-                writeNumberOperation("7");
-                break;
-            case R.id.bt8:
-                writeNumberOperation("8");
-                break;
-            case R.id.bt9:
-                writeNumberOperation("9");
-                break;
-            case R.id.bt6:
-                writeNumberOperation("6");
-                break;
-            case R.id.bt5:
-                writeNumberOperation("5");
-                break;
-            case R.id.bt4:
-                writeNumberOperation("4");
-                break;
-            case R.id.bt3:
-                writeNumberOperation("3");
-                break;
-            case R.id.bt2:
-                writeNumberOperation("2");
-                break;
-            case R.id.bt1:
-                writeNumberOperation("1");
-                break;
-            case R.id.bt0:
-                writeNumberOperation("0");
                 break;
             case R.id.btDec:
                 if(stringResult.equals("")) stringResult = "0";
@@ -177,9 +146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Establece la operacion segun el estado de la calculadora
      */
     private void configureOperation(String ope, Button button) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             button.setBackground(getDrawable(R.drawable.button_secundary_pressed));
-        }
+
         if(lastPressedKey != ope) {
             if(lastPressedKey == "="){
                 nextMark = false;
@@ -193,12 +163,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lastPressedKey = ope;
             }
         }
+
     }
 
     /**
      * Realiza la operacion
      */
     private void checkOperation() {
+
         if(operation.getOperation1() != null && operation.getNumberTwo() != 0.0){
             // Realizo operacion
             switch (operation.getOperation1()){
@@ -245,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Elimina ceros que puede dar el double a partir de la coma
      */
     private void deleteCeros() {
+
         for(int i = stringResult.length()-1 ; i > stringResult.indexOf(".") ; i--){
             String n = String.valueOf(stringResult.charAt(i));
             if(n.equals("0")){
@@ -252,10 +225,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i--;
             }
         }
+
         if(stringResult.length() > 1 &&
                 stringResult.substring(stringResult.length()-1, stringResult.length()).equals(".")){
             stringResult = stringResult.replace(".", "");
         }
+
     }
 
     /**
@@ -263,18 +238,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void cleanCharByChar() {
 
-        if(stringResult.length() <= 1){
+        if(stringResult.length() <= 1)
             stringResult = "";
-        }else{
+        else
             stringResult = stringResult.substring(0, stringResult.length()-1);
-        }
-        if(stringResult.length() > 1 && stringResult.substring(stringResult.length()-1, stringResult.length()) == ","){
-            stringResult = stringResult.replace(",", "");
-        }
 
-        if(!stringResult.equals("")){
+        if(stringResult.length() > 1 && stringResult.substring(stringResult.length()-1, stringResult.length()) == ",")
+            stringResult = stringResult.replace(",", "");
+
+        if(!stringResult.equals(""))
             insertNumberOperation(Double.parseDouble(stringResult));
-        }
+
         nextMark = true;
     }
 
@@ -335,17 +309,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @param num
      */
     private void insertNumberOperation(double num) {
-        if(markNum2){
+
+        if(markNum2)
             operation.setNumberTwo(num);
-        }else{
+        else
             operation.setNumberOne(num);
-        }
+
     }
 
     /**
      * Pulsa el boton AC, se ponen todas las variables como al principio
      */
     private void cleanAll() {
+
         num1 = null;
         num2 = null;
         stringResult = "0";
@@ -355,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         operation.setNumberOne(0);
         operation.setNumberTwo(0);
         operation.setOperation1(null);
+
     }
 
     /**
