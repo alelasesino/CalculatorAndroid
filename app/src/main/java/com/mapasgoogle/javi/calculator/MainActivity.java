@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Inicializa todos los componentes del XML y sus eventos
+     */
     private void initializeComponents(){
 
         textViewBox = findViewById(R.id.tvBox);
@@ -83,14 +86,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Evento click de los botones que son numeros
+     * @param v
+     */
     private void onNumberClick(View v){
 
-        Button bt = (Button)v;
-        writeNumberOperation(bt.getText().toString());
+        writeNumberOperation(((Button)v).getText().toString());
         textViewBox.setText(stringResult);
 
     }
 
+    /**
+     * Evento click de los botones de operaciones
+     * @param v
+     */
     @Override
     public void onClick(View v) {
 
