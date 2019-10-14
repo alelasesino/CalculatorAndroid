@@ -58,17 +58,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="4dp"
+            android:gravity="center">
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:text="Binario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <RadioButton
+                    android:text="Decimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </RadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selecciona una base: "/>
+                android:text="Selecciona una base: "
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="2dp"
+                android:textAllCaps="true"/>
 
             <Spinner
                 android:id="@+id/spinner_base"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="70dp"/>
 
         </LinearLayout>
 
@@ -76,15 +98,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="22"
-            android:weightSum="40">
+            android:layout_weight="20">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="9"
-                android:weightSum="4">
+                android:layout_weight="3">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -128,8 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="8"
-                android:weightSum="4">
+                android:layout_weight="3">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -190,16 +209,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="6.5"
-                android:weightSum="4">
+                android:layout_weight="3">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/button_secundary"
                     android:text="B"
-                    android:textSize="25dp"
-                    android:background="@drawable/button_secundary"/>
+                    android:textSize="25dp" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -212,27 +230,27 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="4"
                     android:textSize="25dp"
-                    android:layout_weight="1"
                     android:background="@drawable/button_main"
                     android:id="@+id/bt4"/>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="5"
                     android:textSize="25dp"
-                    android:layout_weight="1"
                     android:background="@drawable/button_main"
                     android:id="@+id/bt5"/>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="6"
                     android:textSize="25dp"
-                    android:layout_weight="1"
                     android:background="@drawable/button_main"
                     android:id="@+id/bt6"/>
 
@@ -253,8 +271,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="7.2"
-                android:weightSum="4">
+                android:layout_weight="3">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -314,18 +331,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="5"
-                android:weightSum="5">
+                android:layout_weight="3">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="25dp"
+                    android:enabled="false"
+                    android:background="@drawable/button_secundary"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="25dp"
+                    android:enabled="false"
+                    android:background="@drawable/button_secundary"/>
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="0"
                     android:textSize="25dp"
-                    android:layout_weight="3"
+                    android:layout_weight="4.6"
                     android:background="@drawable/button_main"
                     android:id="@+id/bt0"/>
-
 
                 <Button
                     android:id="@+id/btDec"
@@ -346,6 +377,7 @@
                     android:id="@+id/btEqu"/>
 
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
