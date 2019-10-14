@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonSum;
     private Button buttonEqu;
     private Button buttonDec;
+    private Spinner baseSpinner;
 
     private String num1 = null;
     private String num2 = null;
@@ -83,6 +86,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for(Button bt : numberButtons)
             bt.setOnClickListener(this::onNumberClick);
+
+        baseSpinner = findViewById(R.id.spinner_base);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.bases, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        baseSpinner.setAdapter(adapter);
 
     }
 

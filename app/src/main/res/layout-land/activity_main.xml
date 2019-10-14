@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,18 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="25">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="6">
+            android:layout_weight="6"
+            android:weightSum="7">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="8">
+                android:layout_weight="7">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -73,13 +76,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="19">
+            android:layout_weight="22"
+            android:weightSum="40">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="3">
+                android:layout_weight="9"
+                android:weightSum="4">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -125,6 +130,22 @@
                 android:orientation="horizontal"
                 android:layout_weight="8"
                 android:weightSum="4">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="A"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="D"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
 
                 <Button
                     android:layout_width="wrap_content"
@@ -175,6 +196,22 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="B"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="E"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="4"
                     android:textSize="25dp"
                     android:layout_weight="1"
@@ -216,7 +253,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="4">
+                android:layout_weight="7.2"
+                android:weightSum="4">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="C"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="F"
+                    android:textSize="25dp"
+                    android:background="@drawable/button_secundary"/>
 
                 <Button
                     android:layout_width="wrap_content"
@@ -260,14 +314,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="4">
+                android:layout_weight="5"
+                android:weightSum="5">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="0"
                     android:textSize="25dp"
-                    android:layout_weight="4"
+                    android:layout_weight="3"
                     android:background="@drawable/button_main"
                     android:id="@+id/bt0"/>
 
@@ -276,7 +331,7 @@
                     android:id="@+id/btDec"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
+                    android:layout_weight="1"
                     android:background="@drawable/button_main"
                     android:text=","
                     android:textSize="25dp" />
@@ -284,15 +339,14 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
                     android:text="="
                     android:textSize="25dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_secundary"
                     android:id="@+id/btEqu"/>
 
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
