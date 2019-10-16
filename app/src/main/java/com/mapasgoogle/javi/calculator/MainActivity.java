@@ -1,13 +1,13 @@
 package com.mapasgoogle.javi.calculator;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -17,6 +17,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                      R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9};
 
     private Button[] numberButtons = new Button[numberButtonsId.length];
+
+    private RadioButton radioBinario, radioDecimal;
+    private Spinner spinnerBase;
+    private boolean isRadioButton;
 
     private TextView textViewBox;
     private Button buttonDel;
@@ -29,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonSum;
     private Button buttonEqu;
     private Button buttonDec;
-    private Spinner baseSpinner;
 
     private String num1 = null;
     private String num2 = null;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Inicializa todos los componentes del XML y sus eventos
      */
-    private void initializeComponents(){
+    private void initializeComponents() {
 
         textViewBox = findViewById(R.id.tvBox);
         buttonDel = findViewById(R.id.btDel);
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDec = findViewById(R.id.btDec);
         buttonEqu = findViewById(R.id.btEqu);
 
-        for(int i = 0; i<numberButtonsId.length; i++)
+        for (int i = 0; i < numberButtonsId.length; i++)
             numberButtons[i] = findViewById(numberButtonsId[i]);
 
 
@@ -84,15 +87,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDec.setOnClickListener(this);
         buttonEqu.setOnClickListener(this);
 
-        for(Button bt : numberButtons)
+        for (Button bt : numberButtons)
             bt.setOnClickListener(this::onNumberClick);
 
-        baseSpinner = findViewById(R.id.spinner_base);
+        radioBinario = findViewById(R.id.radioBinario);
+        radioDecimal = findViewById(R.id.radioDecimal);
+        spinnerBase = findViewById(R.id.spinner_base);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.bases, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        baseSpinner.setAdapter(adapter);
+        spinnerBase.setAdapter(adapter);
+
+        radioBinario.setOnClickListener(this::onRadioBaseClick);
+        radioDecimal.setOnClickListener(this::onRadioBaseClick);
+
+        spinnerBase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if(!isRadioButton) //COMPRUEBA QUE LA LLAMADA NO VIENE DE UN RADIO BUTTON
+                    changeState(view);
+                else
+                    isRadioButton = false;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+
+    }
+
+    private void onRadioBaseClick(View v){
+        changeState(v);
+    }
+
+    private void changeState(View v) {
+
+        switch (v.getId()){
+            case R.id.radioBinario:
+                spinnerBase.setSelection(0);
+                isRadioButton = true;
+                break;
+
+            case R.id.radioDecimal:
+                spinnerBase.setSelection(8);
+                isRadioButton = true;
+                break;
+
+        }
+
+        radioBinario.setChecked(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 2 || v.getId() == R.id.radioBinario);
+        radioDecimal.setChecked(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 10 || v.getId() == R.id.radioDecimal);
+
+        for(int i = 2; i<numberButtons.length; i++)
+            numberButtons[i].setEnabled(Integer.parseInt(spinnerBase.getSelectedItem().toString()) > i);
 
     }
 
