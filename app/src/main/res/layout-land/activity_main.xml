@@ -67,11 +67,13 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/radioBinario"
                     android:text="Binario"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
                 <RadioButton
+                    android:id="@+id/radioDecimal"
                     android:text="Decimal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>

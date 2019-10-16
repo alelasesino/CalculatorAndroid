@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(!isRadioButton) //COMPRUEBA QUE LA LLAMADA NO VIENE DE UN RADIO BUTTON
+                if(!isRadioButton && view != null) //COMPRUEBA QUE LA LLAMADA NO VIENE DE UN RADIO BUTTON
                     changeState(view);
                 else
                     isRadioButton = false;
@@ -123,10 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Evento click de los radio buttons
+     * @param v Vista que generó el evento click
+     */
     private void onRadioBaseClick(View v){
         changeState(v);
     }
 
+    /**
+     * Cambia el estado de los componentes de la aplicacion
+     * @param v Vista que generó el cambio de estado
+     */
     private void changeState(View v) {
 
         switch (v.getId()){
@@ -139,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 spinnerBase.setSelection(8);
                 isRadioButton = true;
                 break;
-
         }
 
         radioBinario.setChecked(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 2 || v.getId() == R.id.radioBinario);
@@ -148,11 +155,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i = 2; i<numberButtons.length; i++)
             numberButtons[i].setEnabled(Integer.parseInt(spinnerBase.getSelectedItem().toString()) > i);
 
+        cleanAll();
+        textViewBox.setText(stringResult);
+
     }
 
     /**
      * Evento click de los botones que son numeros
-     * @param v
+     * @param v Vista del boton que lanzó el evento
      */
     private void onNumberClick(View v){
 
