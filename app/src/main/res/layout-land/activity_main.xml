@@ -154,6 +154,7 @@
                 android:layout_weight="3">
 
                 <Button
+                    android:id="@+id/btA"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -162,6 +163,7 @@
                     android:background="@drawable/button_secundary"/>
 
                 <Button
+                    android:id="@+id/btD"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -214,6 +216,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btB"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -222,6 +225,7 @@
                     android:textSize="25dp" />
 
                 <Button
+                    android:id="@+id/btE"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -276,6 +280,7 @@
                 android:layout_weight="3">
 
                 <Button
+                    android:id="@+id/btC"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -284,6 +289,7 @@
                     android:background="@drawable/button_secundary"/>
 
                 <Button
+                    android:id="@+id/btF"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

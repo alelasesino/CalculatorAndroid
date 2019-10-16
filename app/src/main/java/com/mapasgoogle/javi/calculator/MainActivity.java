@@ -1,5 +1,7 @@
 package com.mapasgoogle.javi.calculator;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
@@ -14,12 +16,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int[] numberButtonsId = {R.id.bt0, R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4,
                                      R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9};
-
+/*,
+                                     R.id.btA, R.id.btB, R.id.btC, R.id.btD, R.id.btE,
+                                     R.id.btF,*/
     private Button[] numberButtons = new Button[numberButtonsId.length];
 
     private RadioGroup groupBase;
@@ -116,6 +121,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 changeState();
+
+                if(Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i))) > 9){
+
+                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //Toast.makeText(this, "")
+
+                }
 
             }
 
