@@ -1,13 +1,17 @@
 package com.mapasgoogle.javi.calculator;
 
+import android.content.res.Configuration;
+import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,9 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button[] numberButtons = new Button[numberButtonsId.length];
 
+    private RadioGroup groupBase;
     private RadioButton radioBinario, radioDecimal;
     private Spinner spinnerBase;
-    private boolean isRadioButton;
 
     private TextView textViewBox;
     private Button buttonDel;
@@ -52,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         operation = new Operation(0, 0, null);
 
         initializeComponents();
+
+        if(savedInstanceState != null)
+            restoredInstaceState(savedInstanceState);
 
     }
 
@@ -90,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (Button bt : numberButtons)
             bt.setOnClickListener(this::onNumberClick);
 
+        groupBase = findViewById(R.id.groupBase);
         radioBinario = findViewById(R.id.radioBinario);
         radioDecimal = findViewById(R.id.radioDecimal);
         spinnerBase = findViewById(R.id.spinner_base);
@@ -107,10 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(!isRadioButton && view != null) //COMPRUEBA QUE LA LLAMADA NO VIENE DE UN RADIO BUTTON
-                    changeState(view);
-                else
-                    isRadioButton = false;
+                changeState();
 
             }
 
@@ -124,33 +129,88 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+     * Recupera el estado de la instancia guardada
+     * @param savedInstace Bundle con la instancia guardada
+     */
+    private void restoredInstaceState(Bundle savedInstace){
+
+        num1 = savedInstace.getString("num1");
+        num2 = savedInstace.getString("num2");
+        stringResult = savedInstace.getString("stringResult");
+        nextMark = savedInstace.getBoolean("nextMark");
+        markNum2 = savedInstace.getBoolean("markNum2");
+        lastPressedKey = savedInstace.getString("lastPressedKey");
+
+        if(num1 != null)
+            operation.setNumberOne(Double.parseDouble(num1));
+
+        if(num2 != null)
+            operation.setNumberTwo(Double.parseDouble(num2));
+
+        operation.setOperation1(savedInstace.getString("operacion"));
+
+        String txtView = savedInstace.getString("textViewBox");
+
+        if(txtView != null)
+            if(!txtView.equals(""))
+                textViewBox.setText(txtView);
+            else
+                textViewBox.setText(stringResult);
+
+        changeState();
+
+    }
+
+    /**
+     * Guarda el estado de la instancia actual
+     * @param outState Bundle de salida del estado
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("num1", String.valueOf(operation.getNumberOne()));
+        outState.putString("num2", String.valueOf(operation.getNumberTwo()));
+        outState.putString("stringResult", stringResult);
+        outState.putBoolean("nextMark", nextMark);
+        outState.putBoolean("markNum2", markNum2);
+        outState.putString("lastPressedKey", lastPressedKey);
+        outState.putString("textViewBox", textViewBox.getText().toString());
+        outState.putString("operacion", operation.getOperation1());
+
+    }
+
+    /**
      * Evento click de los radio buttons
      * @param v Vista que generó el evento click
      */
     private void onRadioBaseClick(View v){
-        changeState(v);
-    }
-
-    /**
-     * Cambia el estado de los componentes de la aplicacion
-     * @param v Vista que generó el cambio de estado
-     */
-    private void changeState(View v) {
 
         switch (v.getId()){
             case R.id.radioBinario:
                 spinnerBase.setSelection(0);
-                isRadioButton = true;
                 break;
 
             case R.id.radioDecimal:
                 spinnerBase.setSelection(8);
-                isRadioButton = true;
                 break;
         }
 
-        radioBinario.setChecked(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 2 || v.getId() == R.id.radioBinario);
-        radioDecimal.setChecked(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 10 || v.getId() == R.id.radioDecimal);
+        changeState();
+
+    }
+
+    /**
+     * Cambia el estado de los componentes de la aplicacion
+     */
+    private void changeState() {
+
+        if(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 10)
+            groupBase.check(R.id.radioDecimal);
+        else if(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 2)
+            groupBase.check(R.id.radioBinario);
+        else
+            groupBase.clearCheck();
 
         for(int i = 2; i<numberButtons.length; i++)
             numberButtons[i].setEnabled(Integer.parseInt(spinnerBase.getSelectedItem().toString()) > i);
