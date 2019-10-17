@@ -1,5 +1,7 @@
 package com.mapasgoogle.javi.calculator;
 
+import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +17,11 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int[] numberButtonsId = {R.id.bt0, R.id.bt1, R.id.bt2, R.id.bt3, R.id.bt4,
-                                     R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9};
-/*,
+                                     R.id.bt5, R.id.bt6, R.id.bt7, R.id.bt8, R.id.bt9,
                                      R.id.btA, R.id.btB, R.id.btC, R.id.btD, R.id.btE,
-                                     R.id.btF,*/
-    private Button[] numberButtons = new Button[numberButtonsId.length];
+                                     R.id.btF};
+
+    private Button[] numberButtons;
 
     private RadioGroup groupBase;
     private RadioButton radioBinario, radioDecimal;
@@ -78,9 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDec = findViewById(R.id.btDec);
         buttonEqu = findViewById(R.id.btEqu);
 
-        for (int i = 0; i < numberButtonsId.length; i++)
-            numberButtons[i] = findViewById(numberButtonsId[i]);
+        numberButtons = new Button[(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length)];
 
+        for (int i = 0; i < (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length); i++)
+            numberButtons[i] = findViewById(numberButtonsId[i]);
 
         buttonAC.setOnClickListener(this);
         buttonDel.setOnClickListener(this);

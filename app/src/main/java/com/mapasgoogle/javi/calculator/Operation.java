@@ -1,5 +1,7 @@
 package com.mapasgoogle.javi.calculator;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by javi on 22/11/17.
  */
@@ -57,8 +59,14 @@ public class Operation {
 
     String operationSum(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n1)), base);
-        int i2 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n2)), base);
+        n1 = String.format("#", n1);
+        n2 = String.format("#", n2);
+
+        int i1 = Integer.parseUnsignedInt(n1, base);
+        int i2 = Integer.parseUnsignedInt(n2, base);
+
+        /*int i1 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n1)), base);
+        int i2 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n2)), base);*/
 
         return Integer.toString(i1+i2, base).toUpperCase();
     }
