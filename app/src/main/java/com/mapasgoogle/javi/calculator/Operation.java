@@ -5,17 +5,26 @@ package com.mapasgoogle.javi.calculator;
  */
 public class Operation {
 
-    private double numberOne;
-    private double numberTwo;
+    private String numberOne;
+    private String numberTwo;
     private String operation1;
+    private int base;
 
-    public Operation(double numberOne, double numberTwo, String operation) {
+    public Operation(String numberOne, String numberTwo, String operation) {
         this.numberOne = numberOne;
         this.numberTwo = numberTwo;
         this.operation1 = operation;
     }
 
     public Operation() {
+    }
+
+    public void setBase(int base){
+        this.base = base;
+    }
+
+    public int getBase(){
+        return base;
     }
 
     public String getOperation1() {
@@ -26,19 +35,19 @@ public class Operation {
         this.operation1 = operation1;
     }
 
-    public double getNumberOne() {
+    public String getNumberOne() {
         return numberOne;
     }
 
-    public void setNumberOne(double numberOne) {
+    public void setNumberOne(String numberOne) {
         this.numberOne = numberOne;
     }
 
-    public double getNumberTwo() {
+    public String getNumberTwo() {
         return numberTwo;
     }
 
-    public void setNumberTwo(double numberTwo) {
+    public void setNumberTwo(String numberTwo) {
         this.numberTwo = numberTwo;
     }
 
@@ -46,8 +55,12 @@ public class Operation {
         return n1*n2;
     }
 
-    double operationSum(double n1, double n2){
-        return n1+n2;
+    String operationSum(String n1, String n2){
+
+        int i1 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n1)), base);
+        int i2 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n2)), base);
+
+        return Integer.toString(i1+i2, base).toUpperCase();
     }
 
     double operationDeduct(double n1, double n2){

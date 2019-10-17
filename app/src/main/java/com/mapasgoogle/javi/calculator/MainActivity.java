@@ -1,13 +1,8 @@
 package com.mapasgoogle.javi.calculator;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +11,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -58,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // Inicializo el objeto que llevara toda la operacion
-        operation = new Operation(0, 0, null);
+        operation = new Operation("0", "0", null);
 
         initializeComponents();
 
@@ -122,12 +116,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 changeState();
 
-                if(Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i))) > 9){
+                if(adapter.getItem(i) != null)
+                    operation.setBase(Integer.parseInt(adapter.getItem(i).toString()));
+
+                /*if(Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i))) > 9){
 
                     //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     //Toast.makeText(this, "")
 
-                }
+                }*/
 
             }
 
@@ -154,10 +151,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lastPressedKey = savedInstace.getString("lastPressedKey");
 
         if(num1 != null)
-            operation.setNumberOne(Double.parseDouble(num1));
+            operation.setNumberOne(num1);
 
         if(num2 != null)
-            operation.setNumberTwo(Double.parseDouble(num2));
+            operation.setNumberTwo(num2);
 
         operation.setOperation1(savedInstace.getString("operacion"));
 
@@ -315,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkOperation();
                 operation.setOperation1(ope);
                 num2 = null;
-                operation.setNumberTwo(0.0);
+                operation.setNumberTwo("0.0");
                 lastPressedKey = ope;
             }
         }
@@ -327,23 +324,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void checkOperation() {
 
-        if(operation.getOperation1() != null && operation.getNumberTwo() != 0.0){
+        if(operation.getOperation1() != null && !operation.getNumberTwo().equals("0.0")){
             // Realizo operacion
             switch (operation.getOperation1()){
                 case "sum":
-                    stringResult = String.valueOf(operation.operationSum(operation.getNumberOne(), operation.getNumberTwo()));
+                    stringResult = operation.operationSum(String.valueOf(operation.getNumberOne()), String.valueOf(operation.getNumberTwo()));
                     break;
                 case "res":
-                    stringResult = String.valueOf(operation.operationDeduct(operation.getNumberOne(), operation.getNumberTwo()));
+                    //stringResult = String.valueOf(operation.operationDeduct(operation.getNumberOne(), operation.getNumberTwo()));
                     break;
                 case "prod":
-                    stringResult = String.valueOf(operation.operationProduct(operation.getNumberOne(), operation.getNumberTwo()));
+                    //stringResult = String.valueOf(operation.operationProduct(operation.getNumberOne(), operation.getNumberTwo()));
                     break;
                 case "div":
-                    stringResult = String.valueOf(operation.operationDivision(operation.getNumberOne(), operation.getNumberTwo()));
+                    //stringResult = String.valueOf(operation.operationDivision(operation.getNumberOne(), operation.getNumberTwo()));
                     break;
                 case "porc":
-                    stringResult = String.valueOf(operation.operationPorcentage(operation.getNumberOne(), operation.getNumberTwo()));
+                    //stringResult = String.valueOf(operation.operationPorcentage(operation.getNumberOne(), operation.getNumberTwo()));
                     break;
             }
             if(stringResult.substring(stringResult.length()-1, stringResult.length()).equals("0") &&
@@ -357,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         num1 = stringResult;
-        operation.setNumberOne(Double.parseDouble(num1));
+        operation.setNumberOne(num1);
         nextMark = false;
         markNum2 = true;
 
@@ -403,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             stringResult = stringResult.replace(",", "");
 
         if(!stringResult.equals(""))
-            insertNumberOperation(Double.parseDouble(stringResult));
+            insertNumberOperation(stringResult);
 
         nextMark = true;
     }
@@ -421,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }else{ // Si no la hay, la ponemos y concatenamos un 0 para que no falle al insertar el dato en el objeto, ya que es un double
                 if(markNum2){
-                    if(operation.getNumberTwo() != 0.0) {
+                    if(!operation.getNumberTwo().equals(0.0)) {
                         num2 = ".0";
                     }else{
                         num2 = "0.0";
@@ -448,11 +445,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(markNum2){
             stringResult += num2;
-            insertNumberOperation(Double.parseDouble(stringResult));
+            insertNumberOperation(stringResult);
             if(s.equals(",")) stringResult = stringResult.substring(0, stringResult.length()-1);
         }else{
             stringResult += num1;
-            insertNumberOperation(Double.parseDouble(stringResult));
+            insertNumberOperation(stringResult);
             if(s.equals(",")) stringResult = stringResult.substring(0, stringResult.length()-1);
         }
 
@@ -464,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Inserta el numero en el objeto Operation
      * @param num
      */
-    private void insertNumberOperation(double num) {
+    private void insertNumberOperation(String num) {
 
         if(markNum2)
             operation.setNumberTwo(num);
@@ -484,8 +481,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nextMark = true;
         markNum2 = false;
         lastPressedKey = null;
-        operation.setNumberOne(0);
-        operation.setNumberTwo(0);
+        operation.setNumberOne("0");
+        operation.setNumberTwo("0");
         operation.setOperation1(null);
 
     }
@@ -504,10 +501,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(!stringResult.equals("") && !stringResult.equals("-")) {
-            if (operation.getNumberTwo() != 0.0) {
-                operation.setNumberTwo(Double.parseDouble(stringResult));
+            if (!operation.getNumberTwo().equals("0.0")) {
+                operation.setNumberTwo(stringResult);
             } else {
-                operation.setNumberOne(Double.parseDouble(stringResult));
+                operation.setNumberOne(stringResult);
             }
         }
     }
