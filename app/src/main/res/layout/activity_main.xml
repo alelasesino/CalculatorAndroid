@@ -303,7 +303,8 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/button_main"
                     android:text=","
-                    android:textSize="25dp" />
+                    android:textSize="25dp"
+                    android:enabled="false"/>
 
                 <Button
                     android:layout_width="wrap_content"

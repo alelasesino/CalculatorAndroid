@@ -1,7 +1,5 @@
 package com.mapasgoogle.javi.calculator;
 
-import java.text.DecimalFormat;
-
 /**
  * Created by javi on 22/11/17.
  */
@@ -53,34 +51,44 @@ public class Operation {
         this.numberTwo = numberTwo;
     }
 
-    double operationProduct(double n1, double n2){
-        return n1*n2;
-    }
-
-    String operationSum(String n1, String n2){
-
-        n1 = String.format("#", n1);
-        n2 = String.format("#", n2);
+    String operationProduct(String n1, String n2){
 
         int i1 = Integer.parseUnsignedInt(n1, base);
         int i2 = Integer.parseUnsignedInt(n2, base);
 
-        /*int i1 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n1)), base);
-        int i2 = Integer.parseUnsignedInt(String.valueOf((int)Double.parseDouble(n2)), base);*/
+        return Integer.toString(i1*i2, base).toUpperCase();
+    }
+
+    String operationSum(String n1, String n2){
+
+        int i1 = Integer.parseUnsignedInt(n1, base);
+        int i2 = Integer.parseUnsignedInt(n2, base);
 
         return Integer.toString(i1+i2, base).toUpperCase();
     }
 
-    double operationDeduct(double n1, double n2){
-        return n1-n2;
+    String operationDeduct(String n1, String n2){
+
+        int i1 = Integer.parseUnsignedInt(n1, base);
+        int i2 = Integer.parseUnsignedInt(n2, base);
+
+        return Integer.toString(i1-i2, base).toUpperCase();
     }
 
-    double operationDivision(double n1, double n2){
-        return n1/n2;
+    String operationDivision(String n1, String n2){
+
+        int i1 = Integer.parseUnsignedInt(n1, base);
+        int i2 = Integer.parseUnsignedInt(n2, base);
+
+        return Integer.toString(i1/i2, base).toUpperCase();
     }
 
-    double operationPorcentage(double n1, double n2){
-        return (n1/100*n2);
+    String operationPorcentage(String n1, String n2){
+
+        int i1 = Integer.parseUnsignedInt(n1, base);
+        int i2 = Integer.parseUnsignedInt(n2, base);
+
+        return Integer.toString(i1/100*i2, base).toUpperCase();
     }
 
 }

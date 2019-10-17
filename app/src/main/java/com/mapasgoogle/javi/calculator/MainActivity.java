@@ -1,10 +1,12 @@
 package com.mapasgoogle.javi.calculator;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -80,9 +83,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDec = findViewById(R.id.btDec);
         buttonEqu = findViewById(R.id.btEqu);
 
-        numberButtons = new Button[(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length)];
+        int currentOrientation = getResources().getConfiguration().orientation;
+        int sizeButtons = (currentOrientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length);
 
-        for (int i = 0; i < (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length); i++)
+        numberButtons = new Button[sizeButtons];
+
+        for (int i = 0; i < sizeButtons; i++)
             numberButtons[i] = findViewById(numberButtonsId[i]);
 
         buttonAC.setOnClickListener(this);
@@ -104,8 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         radioDecimal = findViewById(R.id.radioDecimal);
         spinnerBase = findViewById(R.id.spinner_base);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.bases, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.bases, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBase.setAdapter(adapter);
 
@@ -117,17 +122,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                changeState();
+                int base = Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i)));
 
-                if(adapter.getItem(i) != null)
-                    operation.setBase(Integer.parseInt(adapter.getItem(i).toString()));
+                if(base > 10)
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-                /*if(Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i))) > 9){
+                else
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
-                    //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    //Toast.makeText(this, "")
+                if (base != operation.getBase() && view != null){
 
-                }*/
+                    changeState();
+
+                    cleanAll();
+                    textViewBox.setText(stringResult);
+
+                }
+
+                operation.setBase(base);
 
             }
 
@@ -160,16 +172,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             operation.setNumberTwo(num2);
 
         operation.setOperation1(savedInstace.getString("operacion"));
+        operation.setBase(savedInstace.getInt("base"));
+        spinnerBase.setSelection(savedInstace.getInt("base")-2);
 
         String txtView = savedInstace.getString("textViewBox");
+
+        changeState();
 
         if(txtView != null)
             if(!txtView.equals(""))
                 textViewBox.setText(txtView);
             else
                 textViewBox.setText(stringResult);
-
-        changeState();
 
     }
 
@@ -181,14 +195,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("num1", String.valueOf(operation.getNumberOne()));
-        outState.putString("num2", String.valueOf(operation.getNumberTwo()));
+        outState.putString("num1", operation.getNumberOne());
+        outState.putString("num2", operation.getNumberTwo());
         outState.putString("stringResult", stringResult);
         outState.putBoolean("nextMark", nextMark);
         outState.putBoolean("markNum2", markNum2);
         outState.putString("lastPressedKey", lastPressedKey);
         outState.putString("textViewBox", textViewBox.getText().toString());
         outState.putString("operacion", operation.getOperation1());
+        outState.putInt("base", operation.getBase());
 
     }
 
@@ -210,6 +225,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         changeState();
 
+        cleanAll();
+        textViewBox.setText(stringResult);
+
     }
 
     /**
@@ -226,9 +244,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for(int i = 2; i<numberButtons.length; i++)
             numberButtons[i].setEnabled(Integer.parseInt(spinnerBase.getSelectedItem().toString()) > i);
-
-        cleanAll();
-        textViewBox.setText(stringResult);
 
     }
 
@@ -315,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkOperation();
                 operation.setOperation1(ope);
                 num2 = null;
-                operation.setNumberTwo("0.0");
+                operation.setNumberTwo("0");
                 lastPressedKey = ope;
             }
         }
@@ -327,23 +342,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void checkOperation() {
 
-        if(operation.getOperation1() != null && !operation.getNumberTwo().equals("0.0")){
+        if(operation.getOperation1() != null && !operation.getNumberTwo().equals("0")){
             // Realizo operacion
             switch (operation.getOperation1()){
                 case "sum":
-                    stringResult = operation.operationSum(String.valueOf(operation.getNumberOne()), String.valueOf(operation.getNumberTwo()));
+                    stringResult = operation.operationSum(operation.getNumberOne(), operation.getNumberTwo());
                     break;
                 case "res":
-                    //stringResult = String.valueOf(operation.operationDeduct(operation.getNumberOne(), operation.getNumberTwo()));
+                    stringResult = operation.operationDeduct(operation.getNumberOne(), operation.getNumberTwo());
                     break;
                 case "prod":
-                    //stringResult = String.valueOf(operation.operationProduct(operation.getNumberOne(), operation.getNumberTwo()));
+                    stringResult = operation.operationProduct(operation.getNumberOne(), operation.getNumberTwo());
                     break;
                 case "div":
-                    //stringResult = String.valueOf(operation.operationDivision(operation.getNumberOne(), operation.getNumberTwo()));
+                    stringResult = operation.operationDivision(operation.getNumberOne(), operation.getNumberTwo());
                     break;
                 case "porc":
-                    //stringResult = String.valueOf(operation.operationPorcentage(operation.getNumberOne(), operation.getNumberTwo()));
+                    stringResult = operation.operationPorcentage(operation.getNumberOne(), operation.getNumberTwo());
                     break;
             }
             if(stringResult.substring(stringResult.length()-1, stringResult.length()).equals("0") &&
@@ -421,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }else{ // Si no la hay, la ponemos y concatenamos un 0 para que no falle al insertar el dato en el objeto, ya que es un double
                 if(markNum2){
-                    if(!operation.getNumberTwo().equals(0.0)) {
+                    if(!operation.getNumberTwo().equals("0.0")) {
                         num2 = ".0";
                     }else{
                         num2 = "0.0";
@@ -504,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(!stringResult.equals("") && !stringResult.equals("-")) {
-            if (!operation.getNumberTwo().equals("0.0")) {
+            if (!operation.getNumberTwo().equals("0")) {
                 operation.setNumberTwo(stringResult);
             } else {
                 operation.setNumberOne(stringResult);
