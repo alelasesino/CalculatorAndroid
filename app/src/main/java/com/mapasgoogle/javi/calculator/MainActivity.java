@@ -1,12 +1,10 @@
 package com.mapasgoogle.javi.calculator;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,20 +24,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button[] numberButtons;
 
     private RadioGroup groupBase;
-    private RadioButton radioBinario, radioDecimal;
     private Spinner spinnerBase;
 
     private TextView textViewBox;
-    private Button buttonDel;
-    private Button buttonAC;
-    private Button buttonMM;
     private Button buttonPorc;
     private Button buttonDiv;
     private Button buttonPro;
     private Button buttonRes;
     private Button buttonSum;
-    private Button buttonEqu;
-    private Button buttonDec;
 
     private String num1 = null;
     private String num2 = null;
@@ -72,16 +63,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeComponents() {
 
         textViewBox = findViewById(R.id.tvBox);
-        buttonDel = findViewById(R.id.btDel);
-        buttonAC = findViewById(R.id.btAC);
-        buttonMM = findViewById(R.id.btMM);
+        Button buttonDel = findViewById(R.id.btDel);
+        Button buttonAC = findViewById(R.id.btAC);
+        Button buttonMM = findViewById(R.id.btMM);
         buttonPorc = findViewById(R.id.btPorc);
         buttonDiv = findViewById(R.id.btDiv);
         buttonPro = findViewById(R.id.btPro);
         buttonRes = findViewById(R.id.btRes);
         buttonSum = findViewById(R.id.btSum);
-        buttonDec = findViewById(R.id.btDec);
-        buttonEqu = findViewById(R.id.btEqu);
+        Button buttonDec = findViewById(R.id.btDec);
+        Button buttonEqu = findViewById(R.id.btEqu);
 
         int currentOrientation = getResources().getConfiguration().orientation;
         int sizeButtons = (currentOrientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length);
@@ -106,8 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             bt.setOnClickListener(this::onNumberClick);
 
         groupBase = findViewById(R.id.groupBase);
-        radioBinario = findViewById(R.id.radioBinario);
-        radioDecimal = findViewById(R.id.radioDecimal);
+        RadioButton radioBinario = findViewById(R.id.radioBinario);
+        RadioButton radioDecimal = findViewById(R.id.radioDecimal);
         spinnerBase = findViewById(R.id.spinner_base);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.bases, android.R.layout.simple_spinner_item);
@@ -125,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int base = Integer.parseInt(String.valueOf(adapterView.getItemAtPosition(i)));
 
                 if(base > 10)
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //ESTABLECE LA ORIENTACION A HORIZONTAL
 
                 else
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR); //ESTABLECE LA ORIENTACION SEGUN EL SENSOR
 
                 if (base != operation.getBase() && view != null){
 

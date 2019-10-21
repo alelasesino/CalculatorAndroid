@@ -16,9 +16,6 @@ public class Operation {
         this.operation1 = operation;
     }
 
-    public Operation() {
-    }
-
     public void setBase(int base){
         this.base = base;
     }
@@ -53,42 +50,50 @@ public class Operation {
 
     String operationProduct(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(n1, base);
-        int i2 = Integer.parseUnsignedInt(n2, base);
+        int i1 = getNumberBase(n1);
+        int i2 = getNumberBase(n2);
 
-        return Integer.toString(i1*i2, base).toUpperCase();
+        return getStringBase(i1*i2);
     }
 
     String operationSum(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(n1, base);
-        int i2 = Integer.parseUnsignedInt(n2, base);
+        int i1 = getNumberBase(n1);
+        int i2 = getNumberBase(n2);
 
-        return Integer.toString(i1+i2, base).toUpperCase();
+        return getStringBase(i1+i2);
     }
 
     String operationDeduct(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(n1, base);
-        int i2 = Integer.parseUnsignedInt(n2, base);
+        int i1 = getNumberBase(n1);
+        int i2 = getNumberBase(n2);
 
-        return Integer.toString(i1-i2, base).toUpperCase();
+        return getStringBase(i1-i2);
     }
 
     String operationDivision(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(n1, base);
-        int i2 = Integer.parseUnsignedInt(n2, base);
+        int i1 = getNumberBase(n1);
+        int i2 = getNumberBase(n2);
 
-        return Integer.toString(i1/i2, base).toUpperCase();
+        return getStringBase(i1/i2);
     }
 
     String operationPorcentage(String n1, String n2){
 
-        int i1 = Integer.parseUnsignedInt(n1, base);
-        int i2 = Integer.parseUnsignedInt(n2, base);
+        int i1 = getNumberBase(n1);
+        int i2 = getNumberBase(n2);
 
-        return Integer.toString(i1/100*i2, base).toUpperCase();
+        return getStringBase(i1/100*i2);
+    }
+
+    private int getNumberBase(String n1){
+        return Integer.parseUnsignedInt(n1, base);
+    }
+
+    private String getStringBase(int n1){
+        return Integer.toString(n1, base).toUpperCase();
     }
 
 }
