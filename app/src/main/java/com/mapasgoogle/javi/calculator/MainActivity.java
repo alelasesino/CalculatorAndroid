@@ -1,5 +1,6 @@
 package com.mapasgoogle.javi.calculator;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -75,7 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonEqu = findViewById(R.id.btEqu);
 
         int currentOrientation = getResources().getConfiguration().orientation;
-        int sizeButtons = (currentOrientation == Configuration.ORIENTATION_PORTRAIT ? numberButtonsId.length-6 : numberButtonsId.length);
+        int orientationPortrait = Configuration.ORIENTATION_PORTRAIT;
+
+        //ELIMINA LOS 6 BOTONES DE LAS LETRAS SI LA ORIENTACION ES VERTICAL
+        int sizeButtons = (currentOrientation == orientationPortrait
+                                              ? numberButtonsId.length-6
+                                              : numberButtonsId.length);
 
         numberButtons = new Button[sizeButtons];
 
@@ -226,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void changeState() {
 
+        //COMPRUEBA SI LA BASE SELECCIONADA EN EL SPINNER COINCIDE CON LOS RADIO BUTTONS PARA SELECCIONARLOS
         if(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 10)
             groupBase.check(R.id.radioDecimal);
         else if(Integer.parseInt(spinnerBase.getSelectedItem().toString()) == 2)

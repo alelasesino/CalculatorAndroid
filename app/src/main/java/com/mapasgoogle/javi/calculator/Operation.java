@@ -88,10 +88,22 @@ public class Operation {
         return getStringBase(i1/100*i2);
     }
 
+    /**
+     * Convierte la cadena recibida en un numero entero en la base
+     * actual de la calculadora
+     * @param n1 Numero para convertir
+     * @return Numero en la base actual de la calculadora
+     */
     private int getNumberBase(String n1){
         return Integer.parseUnsignedInt(n1, base);
     }
 
+    /**
+     * Convierte el numero entero recibido en una cadena en la base
+     * actual de la calculadora
+     * @param n1 Numero para convertir
+     * @return Cadena en la base actual de la calculadora
+     */
     private String getStringBase(int n1){
         return Integer.toString(n1, base).toUpperCase();
     }
